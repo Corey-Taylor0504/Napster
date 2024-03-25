@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  db:
+  postgres:
     image: postgres
     restart: always
     environment:
@@ -16,13 +16,10 @@ services:
     build: .
     restart: always
     depends_on:
-      - db
+      - postgres
     ports:
       - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/musicdb
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: mysecretpassword
+    command: [ "/wait-for-it.sh", "postgres:5432", "--", "java", "-jar", "/app.jar" ]
 
 volumes:
   postgres_data:

@@ -14,7 +14,7 @@ public class MusicService {
     @Value("${napster.api.key}")
     private String napsterApiKey;
 
-    @Value("${napster.api.baseuri}")
+    @Value("${napster.api.baseurl}")
     private String napsterApiBaseUrl;
 
     @Value("${napster.image.baseurl}")

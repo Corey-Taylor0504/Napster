@@ -1,12 +1,11 @@
-# Use the official Maven image to create a build stage
-FROM maven:3.6.3-jdk-17 as build
+FROM maven:3.8.4-openjdk-17 as build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-# Build your application
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
-# Use OpenJDK for running the application
 FROM openjdk:17-alpine
 COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY src/main/resources/wait-for-it.sh wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+ENTRYPOINT ["java", "-jar", "/app.jar"]
